@@ -94,7 +94,6 @@ class FinagleTransport(service: FinagleServiceAbstraction, config: ParrotServerC
       case (name, value) => name + "=" + value
     } mkString (";"))
     httpRequest.setHeader("User-Agent", "com.twitter.parrot")
-    httpRequest.setHeader(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.KEEP_ALIVE)
     httpRequest.setHeader(HttpHeaders.Names.ACCEPT_ENCODING, "gzip,deflate,sdch")
     if (config.includeParrotHeader) {
       httpRequest.setHeader("X-Parrot", "true")
