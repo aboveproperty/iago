@@ -37,7 +37,7 @@ object FinagleTransportFactory extends ParrotTransportFactory[ParrotRequest, Htt
     val statsReceiver = new OstrichStatsReceiver
 
     val builder = ClientBuilder()
-      .codec(Http())
+      .codec(Http(_compressionLevel = 6, _decompressionEnabled = true))
       .daemon(true)
       .hostConnectionCoresize(config.hostConnectionCoresize)
       .hostConnectionIdleTime(Duration(config.hostConnectionIdleTimeInMs, TimeUnit.MILLISECONDS))
@@ -94,6 +94,8 @@ class FinagleTransport(service: FinagleServiceAbstraction, config: ParrotServerC
       case (name, value) => name + "=" + value
     } mkString (";"))
     httpRequest.setHeader("User-Agent", "com.twitter.parrot")
+    httpRequest.setHeader(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.KEEP_ALIVE)
+    httpRequest.setHeader(HttpHeaders.Names.ACCEPT_ENCODING, "gzip,deflate,sdch")
     if (config.includeParrotHeader) {
       httpRequest.setHeader("X-Parrot", "true")
     }

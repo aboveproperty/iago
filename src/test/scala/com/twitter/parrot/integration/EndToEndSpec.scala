@@ -83,8 +83,8 @@ class EndToEndSpec extends WordSpec with MustMatchers with FeederFixture {
           new ParrotServerImpl(serverConfig)
         server.start()
 
-        val rate = 5 // rps ... requests per second
-        val seconds = 20 // how long we expect to take to send our requests
+        val rate = 1 // rps ... requests per second
+        val seconds = 10 // how long we expect to take to send our requests
         val totalRequests = (rate * seconds).toInt
         val feederConfig = makeFeederConfig(serverConfig.parrotPort, twitters(totalRequests))
 
